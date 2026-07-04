@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  DONOR
+  RECIPIENT
+  ADMIN
+}
+
+enum BloodGroup {
+  A_POS
+  A_NEG
+  B_POS
+  B_NEG
+  AB_POS
+  AB_NEG
+  O_POS
+  O_NEG
+}
+
+enum DonationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RewardStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum ContactRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum FeedbackStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  phone          String    @unique
+  passwordHash   String
+  role           Role
+  isVerified     Boolean   @default(false)
+  isBanned       Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  donorProfile        DonorProfile?
+  recipientProfile    RecipientProfile?
+  sessions            Session[]
+  contactRequestsMade ContactRequest[] @relation("RequestedBy")
+  feedbackGiven       Feedback[]       @relation("FeedbackBy")
+  adminActions        AdminAction[]
+
+  @@index([role])
+  @@index([email])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DonorProfile {
+  id                 String     @id @default(cuid())
+  userId             String     @unique
+  bloodGroup         BloodGroup
+  district           String
+  area               String
+  gender             String?
+  bkashNumber        String
+  profilePhoto       String?
+  lastDonationDate   DateTime?
+  donationCount      Int        @default(0)
+  reputationScore    Float      @default(0)
+  isProfileVerified  Boolean    @default(false)
+  isEligible         Boolean    @default(true)
+  bio                String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  donationEvents   DonationEvent[]
+  rewardLedger     RewardTransaction[]
+  contactRequests  ContactRequest[]  @relation("DonorContact")
+  feedbackReceived Feedback[]        @relation("FeedbackFor")
+
+  @@index([bloodGroup])
+  @@index([district])
+  @@index([isEligible])
+  @@index([isProfileVerified])
+}
+
+model RecipientProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  district  String
+  area      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model DonationEvent {
+  id              String         @id @default(cuid())
+  donorProfileId  String
+  donationDate    DateTime
+  hospitalName    String
+  notes           String?
+  proofImageUrl   String
+  status          DonationStatus @default(PENDING)
+  adminNotes      String?
+  reviewedAt      DateTime?
+  reviewedBy      String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  donorProfile     DonorProfile       @relation(fields: [donorProfileId], references: [id], onDelete: Cascade)
+  rewardTransaction RewardTransaction?
+
+  @@index([donorProfileId])
+  @@index([status])
+}
+
+model RewardTransaction {
+  id                    String       @id @default(cuid())
+  donorProfileId        String
+  donationEventId       String       @unique
+  amount                Decimal      @default(30) // BDT — cost of one coconut
+  status                RewardStatus @default(PENDING)
+  bkashNumber           String
+  bkashTransactionRef   String?
+  paidAt                DateTime?
+  notes                 String?
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  donorProfile   DonorProfile  @relation(fields: [donorProfileId], references: [id])
+  donationEvent  DonationEvent @relation(fields: [donationEventId], references: [id])
+
+  @@index([donorProfileId])
+  @@index([status])
+}
+
+model ContactRequest {
+  id              String               @id @default(cuid())
+  requestedById   String
+  donorProfileId  String
+  bloodGroup      BloodGroup
+  reason          String
+  status          ContactRequestStatus @default(PENDING)
+  phoneRevealed   Boolean              @default(false)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  requestedBy  User         @relation("RequestedBy", fields: [requestedById], references: [id])
+  donorProfile DonorProfile @relation("DonorContact", fields: [donorProfileId], references: [id])
+
+  @@unique([requestedById, donorProfileId])
+  @@index([donorProfileId])
+  @@index([requestedById])
+}
+
+model Feedback {
+  id             String         @id @default(cuid())
+  donorProfileId String
+  recipientId    String
+  rating         Int            // 1–5
+  message        String
+  status         FeedbackStatus @default(PENDING)
+  adminNotes     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  donorProfile DonorProfile @relation("FeedbackFor", fields: [donorProfileId], references: [id])
+  recipient    User         @relation("FeedbackBy", fields: [recipientId], references: [id])
+
+  @@unique([donorProfileId, recipientId])
+  @@index([donorProfileId])
+  @@index([status])
+}
+
+// Monetary donations to keep the platform running and fund coconut rewards
+model PlatformDonation {
+  id           String   @id @default(cuid())
+  name         String
+  profession   String?
+  bkashNumber  String                           // bKash used to send money
+  amount       Decimal                          // BDT — self-declared, min 120
+  txReference  String?                          // transaction ref from bKash
+  message      String?                          // optional message
+  isVerified   Boolean  @default(false)         // admin marks after confirming payment
+  isPublic     Boolean  @default(true)          // shown on Donor Wall
+  coconutsCount Int     @default(0)             // computed: floor(amount / 120)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isVerified])
+  @@index([createdAt])
+}
+
+model PlatformThought {
+  id         String   @id @default(cuid())
+  name       String
+  profession String
+  location   String
+  comment    String   @db.Text
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([isApproved])
+  @@index([createdAt])
+}
+
+model AdminAction {
+  id         String   @id @default(cuid())
+  adminId    String
+  action     String
+  targetType String
+  targetId   String
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  admin User @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([targetType, targetId])
+}
