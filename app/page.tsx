@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/supabase-server'
 import { db } from '@/lib/db'
 import {
   Droplets, Search, Shield, Award, Heart, ArrowRight,
@@ -11,8 +11,7 @@ import {
 } from 'lucide-react'
 
 export default async function HomePage() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
 
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/supabase-server'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 import { computeEligibility } from '@/lib/utils'
@@ -12,8 +12,7 @@ const schema = z.object({
 const REWARD_AMOUNT = parseFloat(process.env.REWARD_AMOUNT_BDT ?? '30')
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user || user.user_metadata?.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }

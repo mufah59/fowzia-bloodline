@@ -1,6 +1,6 @@
-import { redirect }                   from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
-import { db }                         from '@/lib/db'
+import { redirect }         from 'next/navigation'
+import { getCurrentUser }   from '@/lib/supabase-server'
+import { db }               from '@/lib/db'
 import Navbar                         from '@/components/Navbar'
 import Footer                         from '@/components/Footer'
 import ProfileClient                  from '@/components/ProfileClient'
@@ -8,8 +8,7 @@ import ProfileClient                  from '@/components/ProfileClient'
 export const metadata = { title: 'My Profile' }
 
 export default async function ProfilePage() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user) redirect('/login?callbackUrl=/profile')
 
   const role = user.user_metadata?.role as string | undefined

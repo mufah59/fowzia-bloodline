@@ -24,3 +24,12 @@ export function createSupabaseServerClient() {
     }
   )
 }
+
+// Canonical way to read the current authenticated user in Server Components
+// and Route Handlers. Not usable in middleware, which reads/writes cookies
+// via NextRequest/NextResponse instead of next/headers.
+export async function getCurrentUser() {
+  const supabase = createSupabaseServerClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  return user
+}

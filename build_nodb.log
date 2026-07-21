@@ -1,0 +1,306 @@
+
+> fowzia-bloodline@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.18
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (231kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/31) ...
+   Generating static pages (7/31) 
+ ⨯ useSearchParams() should be wrapped in a suspense boundary at page "/login". Read more: https://nextjs.org/docs/messages/missing-suspense-with-csr-bailout
+    at o (D:\Personal\fowzia-bloodline\.next\server\chunks\3675.js:1:10474)
+    at c (D:\Personal\fowzia-bloodline\.next\server\chunks\3675.js:1:21319)
+    at m (D:\Personal\fowzia-bloodline\.next\server\app\(auth)\login\page.js:1:2520)
+    at nj (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:46251)
+    at nM (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47571)
+    at nN (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64546)
+    at nI (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47010)
+    at nM (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:47717)
+    at nM (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:61546)
+    at nN (D:\Personal\fowzia-bloodline\node_modules\next\dist\compiled\next-server\app-page.runtime.prod.js:12:64546)
+
+Error occurred prerendering page "/login". Read more: https://nextjs.org/docs/messages/prerender-error
+
+   Generating static pages (15/31) 
+   Generating static pages (23/31) 
+prisma:error 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (D:\Personal\fowzia-bloodline\.next\server\app\donate\page.js:1:18525) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '3677653968'
+}
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (D:\Personal\fowzia-bloodline\.next\server\app\donate\page.js:1:18525) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '3677653968'
+}
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (D:\Personal\fowzia-bloodline\.next\server\app\donate\page.js:1:18525) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '3677653968'
+}
+prisma:error 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+prisma:error 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async p (D:\Personal\fowzia-bloodline\.next\server\app\donors-wall\page.js:1:2163) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '334506332'
+}
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async p (D:\Personal\fowzia-bloodline\.next\server\app\donors-wall\page.js:1:2163) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '334506332'
+}
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async p (D:\Personal\fowzia-bloodline\.next\server\app\donors-wall\page.js:1:2163) {
+  clientVersion: '5.22.0',
+  errorCode: undefined,
+  digest: '334506332'
+}
+
+Error occurred prerendering page "/donate". Read more: https://nextjs.org/docs/messages/prerender-error
+
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.aggregate()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async d (D:\Personal\fowzia-bloodline\.next\server\app\donate\page.js:1:18525)
+
+Error occurred prerendering page "/donors-wall". Read more: https://nextjs.org/docs/messages/prerender-error
+
+PrismaClientInitializationError: 
+Invalid `prisma.platformDonation.findMany()` invocation:
+
+
+error: Environment variable not found: DATABASE_URL.
+  -->  schema.prisma:7
+   | 
+ 6 |   provider  = "postgresql"
+ 7 |   url       = env("DATABASE_URL")
+   | 
+
+Validation Error Count: 1
+    at $n.handleRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:7615)
+    at $n.handleAndLogRequestError (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6623)
+    at $n.request (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:121:6307)
+    at async l (D:\Personal\fowzia-bloodline\node_modules\@prisma\client\runtime\library.js:130:9633)
+    at async Promise.all (index 0)
+    at async p (D:\Personal\fowzia-bloodline\.next\server\app\donors-wall\page.js:1:2163)
+ ✓ Generating static pages (31/31)
+
+> Export encountered errors on following paths:
+	/(auth)/login/page: /login
+	/donate/page: /donate
+	/donors-wall/page: /donors-wall

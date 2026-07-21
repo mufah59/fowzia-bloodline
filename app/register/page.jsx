@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
 
 const BLOOD_GROUP_MAP = {
   'A+':  'A_POS',
@@ -24,7 +23,7 @@ const DISTRICTS = [
 ]
 
 const INITIAL_FORM = {
-  name: '', email: '', phone: '',
+  name: '', email: '', phone: '', password: '', confirmPassword: '',
   bloodGroup: '', gender: '', district: '', area: '', bkashNumber: '',
 }
 
@@ -45,6 +44,10 @@ export default function RegisterPage() {
       return 'Enter a valid email address.'
     if (!/^01[0-9]{9}$/.test(form.phone))
       return 'Enter a valid Bangladeshi phone number (01XXXXXXXXX).'
+    if (form.password.length < 8)
+      return 'Password must be at least 8 characters.'
+    if (form.password !== form.confirmPassword)
+      return 'Passwords do not match.'
     return null
   }
 
@@ -83,44 +86,26 @@ export default function RegisterPage() {
     setMessage(null)
 
     try {
-      // Step 1 — Insert User
-      const userId = crypto.randomUUID()
-
-      const { error: userError } = await supabase
-        .from('User')
-        .insert([{
-          id:           userId,
-          name:         form.name.trim(),
-          email:        form.email.toLowerCase().trim(),
-          phone:        form.phone.trim(),
-          passwordHash: 'temp123',
-          role:         'DONOR',
-        }])
-
-      if (userError) {
-        console.error('[REGISTER][USER]', userError)
-        setMessage({ type: 'error', text: userError.message ?? 'Failed to create account. Please try again.' })
-        return
-      }
-
-      // Step 2 — Insert DonorProfile
-      const donorId = crypto.randomUUID()
-
-      const { error: donorError } = await supabase
-        .from('DonorProfile')
-        .insert([{
-          id:         donorId,
-          userId:     userId,
-          bloodGroup: mappedBloodGroup,
-          district:   form.district,
-          area:       form.area.trim(),
+      const res = await fetch('/api/auth/register/donor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:        form.name.trim(),
+          email:       form.email.toLowerCase().trim(),
+          phone:       form.phone.trim(),
+          password:    form.password,
+          bloodGroup:  mappedBloodGroup,
+          district:    form.district,
+          area:        form.area.trim(),
+          gender:      form.gender || null,
           bkashNumber: form.bkashNumber.trim(),
-          gender:     form.gender || null,
-        }])
+        }),
+      })
 
-      if (donorError) {
-        console.error('[REGISTER][DONOR]', donorError)
-        setMessage({ type: 'error', text: donorError.message ?? 'Failed to save donor profile. Please try again.' })
+      const data = await res.json()
+
+      if (!res.ok) {
+        setMessage({ type: 'error', text: data.error ?? 'Failed to create account. Please try again.' })
         return
       }
 
@@ -207,6 +192,31 @@ export default function RegisterPage() {
                 onChange={e => update('phone', e.target.value)}
                 required
               />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input
+                  type="password"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  placeholder="Min 8 characters"
+                  value={form.password}
+                  onChange={e => update('password', e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                <input
+                  type="password"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"
+                  placeholder="Repeat password"
+                  value={form.confirmPassword}
+                  onChange={e => update('confirmPassword', e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
             <button

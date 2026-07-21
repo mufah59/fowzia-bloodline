@@ -1,6 +1,6 @@
-import { redirect }                   from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
-import { db }                         from '@/lib/db'
+import { redirect }         from 'next/navigation'
+import { getCurrentUser }   from '@/lib/supabase-server'
+import { db }               from '@/lib/db'
 import Navbar                         from '@/components/Navbar'
 import Footer                         from '@/components/Footer'
 import Link                           from 'next/link'
@@ -13,8 +13,7 @@ import { BLOOD_GROUP_LABELS, formatDate } from '@/lib/utils'
 export const metadata = { title: 'My Dashboard — Fowzia Bloodline' }
 
 export default async function RecipientDashboardPage() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user || user.user_metadata?.role !== 'RECIPIENT') {
     redirect('/login?callbackUrl=/recipient/dashboard')
   }

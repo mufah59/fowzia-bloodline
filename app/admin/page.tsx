@@ -1,5 +1,5 @@
 import { redirect }          from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser }   from '@/lib/supabase-server'
 import { db }               from '@/lib/db'
 import Navbar               from '@/components/Navbar'
 import AdminDashboardClient from '@/components/admin/AdminDashboardClient'
@@ -7,8 +7,7 @@ import AdminDashboardClient from '@/components/admin/AdminDashboardClient'
 export const metadata = { title: 'Admin Panel' }
 
 export default async function AdminPage() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user || user.user_metadata?.role !== 'ADMIN') redirect('/login')
 
   const [

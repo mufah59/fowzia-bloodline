@@ -1,5 +1,5 @@
 import { redirect }          from 'next/navigation'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser }   from '@/lib/supabase-server'
 import { db }               from '@/lib/db'
 import Navbar               from '@/components/Navbar'
 import Footer               from '@/components/Footer'
@@ -8,8 +8,7 @@ import DonorDashboardClient from '@/components/donor/DonorDashboardClient'
 export const metadata = { title: 'Donor Dashboard' }
 
 export default async function DonorDashboardPage() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user || user.user_metadata?.role !== 'DONOR') redirect('/login?callbackUrl=/donor/dashboard')
 
   const userId = user.id

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/supabase-server'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 
@@ -10,8 +10,7 @@ const schema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (user.user_metadata?.role !== 'RECIPIENT') return NextResponse.json({ error: 'Recipients only.' }, { status: 403 })
 

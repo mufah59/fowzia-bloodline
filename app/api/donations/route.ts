@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from '@/lib/supabase-server'
+import { getCurrentUser } from '@/lib/supabase-server'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 
@@ -11,8 +11,7 @@ const schema = z.object({
 })
 
 export async function POST(req: NextRequest) {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   if (user.user_metadata?.role !== 'DONOR') return NextResponse.json({ error: 'Donors only.' }, { status: 403 })
 
@@ -48,8 +47,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  const supabase = createSupabaseServerClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  const user = await getCurrentUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   try {
